@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@babel/core': ^7.18.13
   '@babel/preset-env': ^7.18.10
+  '@golden-tiger/clone': ^0.0.3
   babel-loader: ^8.2.5
   clean-webpack-plugin: ^4.0.0
   core-js: ^3.25.0
@@ -11,6 +12,9 @@ specifiers:
   webpack: ^5.74.0
   webpack-cli: ^4.10.0
   webpack-merge: ^5.8.0
+
+dependencies:
+  '@golden-tiger/clone': 0.0.3
 
 devDependencies:
   '@babel/core': 7.21.4
@@ -1184,6 +1188,10 @@ packages:
     resolution: {integrity: sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==}
     engines: {node: '>=10.0.0'}
     dev: true
+
+  /@golden-tiger/clone/0.0.3:
+    resolution: {integrity: sha512-GDoRxvfofJeDuQiagS3XoT9hfRkkFAB1TOd52CQ9K6xwCifNb052ejI617/LGFsVMjuKv8QBqLZljUIEsBS3Hg==}
+    dev: false
 
   /@jridgewell/gen-mapping/0.3.3:
     resolution: {integrity: sha512-HLhSWOLRi875zjjMG/r+Nv0oCW8umGb0BgEhyX3dDX3egwZtB8PqLnjz3yedt8R5StBrzcg4aBpnh8UA9D1BoQ==}
