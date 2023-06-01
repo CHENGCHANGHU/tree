@@ -1,7 +1,9 @@
 /**
  * Traverse a tree.
  * @param tree tree root
- * @param reducer handler function with parameter of current tree and accumulator state
+ * @param reducer
+ * Handler function with parameter of current tree and accumulator state.
+ * If handler function returns false, it will terminate the traverse flow.
  * @param option
  * option.childrenKey: specify the tree's children key (default value: 'children').
  * option.order: ['pre'|'post'], traverse a tree in pre-order or post-order.

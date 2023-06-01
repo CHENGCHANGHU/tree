@@ -9,7 +9,9 @@ function getDefaultTraverseOption<T, V>(): TraverseOption<T, V> {
 /**
  * Traverse a tree.
  * @param tree tree root
- * @param reducer handler function with parameter of current tree and accumulator state
+ * @param reducer
+ * Handler function with parameter of current tree and accumulator state.
+ * If handler function returns false, it will terminate the traverse flow.
  * @param option
  * option.childrenKey: specify the tree's children key (default value: 'children').
  * option.order: ['pre'|'post'], traverse a tree in pre-order or post-order.
@@ -26,17 +28,23 @@ export function traverse<T, V>(
     ...option,
   };
 
-  if (order === 'pre') {
-    reducer(tree, state);
-  }
+  [tree].every(function traveler(_tree): boolean {
+    let continueFlag = undefined;
 
-  if (childrenKey && Array.isArray(tree[childrenKey])) {
-    (tree[childrenKey] as T[]).forEach(child => traverse<T, V>(child as T, reducer, option));
-  }
+    if (order === 'pre') {
+      continueFlag = reducer(_tree, state);
+    }
+  
+    if (childrenKey && Array.isArray(_tree[childrenKey])) {
+      continueFlag = (_tree[childrenKey] as T[]).every(traveler);
+    }
+  
+    if (order === 'post') {
+      continueFlag = reducer(_tree, state);
+    }
 
-  if (order === 'post') {
-    reducer(tree, state);
-  }
+    return continueFlag !== false;
+  });
 
   return state;
 }

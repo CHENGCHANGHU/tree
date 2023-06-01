@@ -12,9 +12,9 @@ function getDefaultTreeOption<T>() {
  * Get a constructed tree.
  * @param nodes Tree node array
  * @param option
- * option.key: unique property's name for node
- * option.parentKey: unique property's name for parent node
- * option.childrenKey: unique property's name for children node
+ * option.key: unique property's name for node.
+ * option.parentKey: unique property's name for parent node.
+ * option.childrenKey: unique property's name for children node.
  * @returns A constructed tree
  */
 export function from<T>(
@@ -31,13 +31,15 @@ export function from<T>(
 
   tempNodes.forEach((node: T) => {
     const parentValue = node[key];
-    if (parentValue) {
+    if (parentValue !== undefined) {
       parentMap.set(parentValue, node);
     }
   });
 
   return tempNodes.reduce((trees: T[], node: T) => {
-    if (!node[parentKey]) {
+    if (node[parentKey] === undefined
+      || node[parentKey] === null
+    ) {
       node[childrenKey] = [] as unknown as T[keyof T];
       trees.push(node);
       return trees;
