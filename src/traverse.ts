@@ -14,7 +14,7 @@ function getDefaultTraverseOption<T, V>(): TraverseOption<T, V> {
  * If handler function returns false, it will terminate the traverse flow.
  * @param option
  * option.childrenKey: specify the tree's children key (default value: 'children').
- * option.order: ['pre'|'post'], traverse a tree in pre-order or post-order.
+ * option.order: ['pre'|'post'|'pre-reverse'|'post-reverse'], traverse a tree in pre-order, post-order, pre-order-reverse, or post-order-reverse.
  * option.state: the state when traverse.
  * @returns accumulator state or undefined
  */
@@ -33,17 +33,21 @@ export function traverse<T, V>(
     const _parent = parent;
     let continueFlag = undefined;
 
-    if (order === 'pre') {
+    if (order === 'pre' || order === 'pre-reverse') {
       continueFlag = reducer(_tree, state, parent);
     }
   
     parent = _tree;
     if (childrenKey && Array.isArray(_tree[childrenKey])) {
-      continueFlag = (_tree[childrenKey] as T[]).every(traveler);
+      if (order === 'pre' || order === 'post') {
+        continueFlag = (_tree[childrenKey] as T[]).every(traveler);
+      } else {
+        continueFlag = reverse((_tree[childrenKey] as T[])).every(traveler);
+      }
     }
     parent = _parent;
   
-    if (order === 'post') {
+    if (order === 'post' || order === 'post-reverse') {
       continueFlag = reducer(_tree, state, parent);
     }
 
@@ -53,8 +57,15 @@ export function traverse<T, V>(
   return state;
 }
 
+function reverse<T>(arr: T[]): T[] {
+  return arr.reduce((acc, curr) => {
+    acc.unshift(curr);
+    return acc;
+  }, []);
+}
+
 export interface TraverseOption<T, V> {
   childrenKey?: keyof T,
-  order?: 'pre' | 'post',
+  order?: 'pre' | 'post' | 'pre-reverse' | 'post-reverse',
   state?: V,
 }

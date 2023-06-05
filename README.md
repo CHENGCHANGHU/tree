@@ -77,8 +77,10 @@ Traverse a tree in pre-order or post-order.
 2. @param2 reducer: Handler function with parameters of current tree node, accumulator state and current tree's parent node. If handler function returns false, it will terminate the traverse flow.
 3. @param3 option
 option.childrenKey: specify the tree's children key (default value: 'children').
-option.order: ['pre'|'post'], traverse a tree in pre-order or post-order.
+option.order: [`'pre'`|`'post'`|`'pre-reverse'`|`'post-reverse'`], traverse a tree in pre-order, post-order, pre-order-reverse, or post-order-reverse.
 option.state: the state when traverse.
+
+### `pre`
 
 ```js
 // use pre-order traverse
@@ -94,7 +96,28 @@ trees.forEach(tree => Tree.traverse(tree, (node, state, parent) => {
 }));
 console.log(preOrderState.result);
 // [ 0, 1, 11, 12, 2, 21, 22 ]
+```
 
+### `pre-reverse`
+
+```js
+// use pre-order-reverse traverse
+const preOrderReverseState = {
+  result: [],
+};
+trees.forEach(tree => Tree.traverse(tree, (node, state, parent) => {
+  state.result.push(node.id);
+}, {
+  order: 'pre-reverse',
+  state: preOrderReverseState,
+}));
+console.log(JSON.stringify(preOrderReverseState.result));
+// [ 0, 2, 22, 21, 1, 12, 11 ]
+```
+
+### `post`
+
+```js
 // use post-order traverse
 const postOrderState = {
   result: [],
@@ -108,7 +131,28 @@ trees.forEach(tree => Tree.traverse(tree, (node, state, parent) => {
 }));
 console.log(postOrderState.result);
 // [ 11, 12, 1, 21, 22,  2, 0 ]
+```
 
+### `post-reverse`
+
+```js
+// use post-order-reverse traverse
+const postOrderReverseState = {
+  result: [],
+};
+trees.forEach(tree => Tree.traverse(tree, (node, state, parent) => {
+  state.result.push(node.id);
+}, {
+  order: 'post-reverse',
+  state: postOrderReverseState,
+}));
+console.log(JSON.stringify(postOrderReverseState.result));
+// [ 22, 21, 2, 12, 11, 1, 0 ]
+```
+
+### terminable
+
+```js
 // use terminable traverse
 const terminableState = Tree.traverse(trees[0], (node, state, parent) => {
   state.traveled.push(node.id);
