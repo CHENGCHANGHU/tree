@@ -1,5 +1,12 @@
 # #golden-tiger/tree
 
+## Using
+
+```js
+import Tree from '@golden-tiger/tree'; // mjs
+const Tree = require('@golden-tiger/tree'); // cjs
+```
+
 ## Tree.from
 
 Construct trees from flatten data.
@@ -7,9 +14,9 @@ Construct trees from flatten data.
 1. @param1 nodes: Tree node array
 
 2. @param2 option:
-option.key: unique property's name for node
-option.parentKey: unique property's name for parent node
-option.childrenKey: unique property's name for children node
+option.key: unique property's name for node.
+option.parentKey: unique property's name for parent node. When this value is `null` or `undefined`, it will be a root node.
+option.childrenKey: unique property's name for children node.
 
 ```js
 const a = [
@@ -67,7 +74,7 @@ console.log(JSON.stringify(trees, null, 4));
 Traverse a tree in pre-order or post-order.
 
 1. @param1 tree: tree root
-2. @param2 reducer: Handler function with parameter of current tree and accumulator state. If handler function returns false, it will terminate the traverse flow.
+2. @param2 reducer: Handler function with parameters of current tree node, accumulator state and current tree's parent node. If handler function returns false, it will terminate the traverse flow.
 3. @param3 option
 option.childrenKey: specify the tree's children key (default value: 'children').
 option.order: ['pre'|'post'], traverse a tree in pre-order or post-order.
@@ -92,7 +99,7 @@ console.log(preOrderState.result);
 const postOrderState = {
   result: [],
 };
-trees.forEach(tree => Tree.traverse(tree, (node, state) => {
+trees.forEach(tree => Tree.traverse(tree, (node, state, parent) => {
   state.result.push(node.id);
   return state;
 }, {
