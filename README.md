@@ -85,7 +85,7 @@ option.state: the state when traverse.
 const preOrderState = {
   result: [],
 };
-trees.forEach(tree => Tree.traverse(tree, (node, state) => {
+trees.forEach(tree => Tree.traverse(tree, (node, state, parent) => {
   state.result.push(node.id);
   return state;
 }, {
@@ -110,7 +110,7 @@ console.log(postOrderState.result);
 // [ 11, 12, 1, 21, 22,  2, 0 ]
 
 // use terminable traverse
-const terminableState = Tree.traverse(trees[0], (node, state) => {
+const terminableState = Tree.traverse(trees[0], (node, state, parent) => {
   state.traveled.push(node.id);
   if (node.id === 12) {
     return false;
